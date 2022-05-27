@@ -18,6 +18,8 @@ class Test(Scene):
         eqs_tex = [Tex(eq, font_size = font_size()).set_x(get_coordinate()).set_y(get_coordinate()).set_opacity(opacity()) for eq in eqs]
         eqs_in = [FadeIn(eq) for eq in eqs_tex]
         eqs_scale = [eq.animate.scale(scale_size()) for eq in eqs_tex]
+        eqs_coords = [coord_star() for e in eqs_tex]
+        eqs_translate = [eq.animate.move_to(c[0]*RIGHT+c[1]*UP) for c, eq in zip(eqs_coords, eqs_tex)]
 
         coords_star = [coord_star() for n in range(250)]
         stars = [Dot(radius=radius_star(), color=color_star(), fill_opacity=opacity_star()) for n in range(1, 250)]
@@ -26,7 +28,7 @@ class Test(Scene):
 
         self.play(*stars, *eqs_in, run_time = 0.5)
         self.wait(0.5)
-        self.play(*eqs_scale, run_time = 4.5)
+        self.play(*eqs_translate, *eqs_scale, run_time = 4.5)
         self.wait(0.5)
 
 def font_size():
